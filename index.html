@@ -69,9 +69,6 @@ h1 i{font-style:normal;color:var(--red)}
 .side p{margin-top:14px;max-width:46ch;color:rgba(242,241,236,.85)}
 .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:22px}
 .acts .key{height:44px;padding:0 20px}
-.city{margin-top:14px;display:inline-flex;align-items:center;gap:10px;font-family:var(--disp);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--dim);transition:color .2s}
-.city:hover{color:var(--paper)}
-.city i{font-style:normal;color:var(--cyan)}
 
 /* eight sightings */
 .seen{padding:clamp(40px,6vw,80px) 0 clamp(50px,8vw,100px)}
@@ -122,7 +119,7 @@ h1 i{font-style:normal;color:var(--red)}
   <video id="heroV" src="assets/hero.mp4" poster="assets/hero.jpg" muted loop playsinline autoplay preload="auto"></video>
   <div class="veil"></div>
   <div class="wrap">
-    <div class="eyebrow">Motor District &#183; Stocks Robinhood City &#183; resident 01</div>
+    <div class="eyebrow">Level minus two &#183; stall 04 &#183; every night</div>
     <h1><span data-name>Tesloon</span></h1>
     <p class="lede">He is the car. The car is late. Every night he folds himself back into the sedan, charges to eighty, and unfolds again before the delivery window he keeps missing. <b>Nobody has seen him drive.</b></p>
     <div class="state">Current form<b id="form">Sedan</b></div>
@@ -150,7 +147,6 @@ h1 i{font-style:normal;color:var(--red)}
           <a class="key" data-link="dex" href="https://dexscreener.com/robinhood">Chart<img src="assets/ic-dex.svg" alt="" /></a>
           <a class="key" data-link="x" href="https://x.com" aria-label="X"><img src="assets/ic-x.svg" alt="X" /></a>
         </div>
-        <a class="city" data-link="city" href="#"><i>&#8598;</i> Back to Stocks Robinhood City</a>
       </div>
     </div>
   </section>
@@ -186,7 +182,6 @@ h1 i{font-style:normal;color:var(--red)}
   document.querySelectorAll('[data-link="pons"]').forEach(function(a){ a.href = HAS ? window.PONS_HOME + '/' + CA : window.PONS_HOME; a.target = '_blank'; a.rel = 'noopener'; });
   document.querySelectorAll('[data-link="dex"]').forEach(function(a){ a.href = HAS ? window.DEX_HOME + '/' + CA : window.DEX_HOME; a.target = '_blank'; a.rel = 'noopener'; });
   document.querySelectorAll('[data-link="x"]').forEach(function(a){ a.href = S.X_URL || 'https://x.com'; a.target = '_blank'; a.rel = 'noopener'; });
-  document.querySelectorAll('[data-link="city"]').forEach(function(a){ a.href = window.CITY_URL; a.target = '_blank'; a.rel = 'noopener'; });
 
   /* which form is he in right now: the loop is car → man (0-10s) → car (10-20s) */
   var v = document.getElementById('heroV'), form = document.getElementById('form');
