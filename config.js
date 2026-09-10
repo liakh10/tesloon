@@ -8,4 +8,4 @@ window.SITE = {
 };
 window.PONS_HOME = "https://www.ponsfamily.com/launchpad";
 window.DEX_HOME  = "https://dexscreener.com/robinhood";
-window.CITY_URL  = "https://srcity.vercel.app";
+window.CITY_URL  = "https://stocksrhcity.xyz";
