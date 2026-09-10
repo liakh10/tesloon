@@ -152,7 +152,7 @@ h1 i{font-style:normal;color:var(--red)}
   </section>
 
   <section class="seen">
-    <div class="head"><h2>Eight sightings</h2><span>Same suit &#183; same head &#183; never driving</span></div>
+    <div class="head"><h2>Thirteen sightings</h2><span>Same suit &#183; same head &#183; never driving</span></div>
     <div class="grid" id="grid"></div>
   </section>
 
@@ -201,7 +201,12 @@ h1 i{font-style:normal;color:var(--red)}
     ['The tunnel was his idea, the exit was not', 'in the tunnel'],
     ['Front row, engine off, film unclear', 'at the drive-in'],
     ['A rocket went up, he did not turn around', 'on the rooftop'],
-    ['The delivery date, crossed out again', 'in the office']
+    ['The delivery date, crossed out again', 'in the office'],
+    ['Walking the queue, checking every stall but his', 'walking the charging queue'],
+    ['Plugging in, again, as if it helps', 'crouched at the stall'],
+    ['Straightening the jacket he was delivered in', 'straightening his jacket'],
+    ['Crossing the lot toward nothing in particular', 'crossing the car park'],
+    ['Leaning on the car, which is also him', 'leaning on the car']
   ];
   var grid = document.getElementById('grid'), lb = document.getElementById('lb'), lbimg = document.getElementById('lbimg'), lbcap = document.getElementById('lbcap'), lbn = document.getElementById('lbn'), gi = 0;
   grid.innerHTML = SEEN.map(function(m, i){ return '<button data-i="' + i + '" aria-label="' + m[0] + '"><img src="assets/t' + (i + 1) + '.webp" alt="Tesloon ' + m[1] + '" loading="lazy" /><b>' + m[0] + '</b></button>'; }).join('');
