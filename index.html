@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="config.js"></script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Tesloon</title>
+<meta name="description" content="He is the car, the car is late, every night he folds back into the sedan and charges to eighty" />
+<link rel="icon" type="image/png" href="assets/favicon.png" />
+<link rel="apple-touch-icon" href="assets/apple-icon.png" />
+<link rel="preload" as="image" href="assets/hero.jpg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Michroma&family=Barlow:wght@400;600&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --ink:#05070c; --panel:#0b0f16; --paper:#f2f1ec; --red:#ff3b30; --cyan:#79f0c8; --dim:#6f7684; --line:rgba(242,241,236,.12);
+  --disp:"Michroma","Arial Black",sans-serif; --body:"Barlow","Helvetica Neue",sans-serif; --pad:clamp(16px,3vw,40px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{background:var(--ink);color:var(--paper);font-family:var(--body);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+img,video{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+.grain{position:fixed;inset:0;z-index:50;pointer-events:none;opacity:.06;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E")}
+.hud{position:fixed;z-index:40;display:flex;gap:6px;align-items:center}
+.tl{left:var(--pad);top:var(--pad)} .tr{right:var(--pad);top:var(--pad)}
+.key{display:inline-flex;align-items:center;justify-content:center;gap:9px;height:38px;padding:0 15px;font-family:var(--disp);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper);background:rgba(5,7,12,.7);border:1px solid rgba(242,241,236,.45);transition:background .15s,border-color .15s,transform .12s}
+.key:hover{border-color:var(--paper);background:rgba(242,241,236,.1);transform:translateY(-1px)}
+.key.buy{background:var(--red);border-color:var(--red);color:#fff}
+.key.buy:hover{background:#ff5a50;border-color:#ff5a50}
+.key img{width:15px;height:15px;object-fit:contain}
+.key img.av{width:22px;height:22px;border:1px solid rgba(242,241,236,.5)}
+
+/* hero: the transformation, on a loop */
+.hero{position:relative;min-height:100svh;display:grid;align-items:end;overflow:hidden;background:var(--ink)}
+.hero video,.hero .poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:62% 50%}
+.hero .veil{position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,7,12,.85),rgba(5,7,12,.35) 45%,rgba(5,7,12,0) 70%),linear-gradient(180deg,rgba(5,7,12,.2),rgba(5,7,12,0) 30%,rgba(5,7,12,.96))}
+.wrap{position:relative;z-index:2;width:min(1200px,100%);margin:0 auto;padding:0 var(--pad)}
+.hero .wrap{padding-bottom:calc(var(--pad) + 8px)}
+.eyebrow{font-family:var(--disp);font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--cyan)}
+h1{font-family:var(--disp);font-size:clamp(40px,9vw,128px);line-height:1;letter-spacing:.02em;text-transform:uppercase;color:var(--paper);margin-top:12px;text-shadow:0 14px 60px rgba(0,0,0,.85)}
+h1 i{font-style:normal;color:var(--red)}
+.lede{margin-top:14px;max-width:56ch;font-size:16px;color:rgba(242,241,236,.85)}
+.lede b{font-weight:600;color:var(--paper)}
+.state{position:absolute;right:var(--pad);bottom:calc(var(--pad) + 10px);z-index:3;font-family:var(--disp);font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--dim);text-align:right}
+.state b{display:block;color:var(--paper);font-size:12px;margin-top:4px;transition:color .4s}
+.state b.car{color:var(--red)}
+
+/* the charger: the contract is the session */
+.charge{padding:clamp(56px,9vw,120px) 0 clamp(30px,5vw,60px)}
+.stall{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(300px,.9fr);gap:clamp(18px,3vw,44px);align-items:center}
+.scr{position:relative;background:#03110c;border:1px solid rgba(121,240,200,.25);box-shadow:inset 0 0 70px rgba(121,240,200,.08),0 20px 60px rgba(0,0,0,.6);padding:clamp(18px,3vw,32px);overflow:hidden;cursor:pointer}
+.scr:before{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(rgba(0,0,0,.3) 0 1px,transparent 1px 3px)}
+.scr .hd{font-family:var(--disp);font-size:9.5px;letter-spacing:.34em;text-transform:uppercase;color:rgba(121,240,200,.6);margin-bottom:14px}
+.scr .ln{display:flex;justify-content:space-between;gap:14px;font-family:var(--disp);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);text-shadow:0 0 12px rgba(121,240,200,.5);padding:7px 0;border-bottom:1px dashed rgba(121,240,200,.18)}
+.scr .ln span:first-child{color:rgba(121,240,200,.55)}
+.scr .ca{text-align:right;word-break:break-all;font-family:var(--body);font-weight:600;font-size:13px;letter-spacing:.04em;text-transform:none}
+.bar{margin-top:16px;height:14px;border:1px solid rgba(121,240,200,.5);padding:2px}
+.bar i{display:block;height:100%;width:0;background:var(--cyan);box-shadow:0 0 14px rgba(121,240,200,.6);transition:width 2.4s cubic-bezier(.2,.8,.24,1)}
+.bar.go i{width:80%}
+.scr .pct{display:flex;justify-content:space-between;margin-top:8px;font-family:var(--disp);font-size:10px;letter-spacing:.2em;color:rgba(121,240,200,.7)}
+.scr .pct b{color:var(--cyan);font-size:22px;letter-spacing:.06em}
+.scr .cp{position:absolute;right:14px;top:14px;font-family:var(--disp);font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:rgba(121,240,200,.6)}
+.side h2{font-family:var(--disp);font-size:clamp(20px,3.2vw,40px);line-height:1.15;letter-spacing:.04em;text-transform:uppercase}
+.side h2 i{font-style:normal;color:var(--red)}
+.side p{margin-top:14px;max-width:46ch;color:rgba(242,241,236,.85)}
+.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:22px}
+.acts .key{height:44px;padding:0 20px}
+.city{margin-top:14px;display:inline-flex;align-items:center;gap:10px;font-family:var(--disp);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--dim);transition:color .2s}
+.city:hover{color:var(--paper)}
+.city i{font-style:normal;color:var(--cyan)}
+
+/* eight sightings */
+.seen{padding:clamp(40px,6vw,80px) 0 clamp(50px,8vw,100px)}
+.head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:16px}
+.head h2{font-family:var(--disp);font-size:clamp(20px,3.6vw,44px);letter-spacing:.04em;text-transform:uppercase}
+.head span{font-family:var(--disp);font-size:9.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--dim)}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.grid button{position:relative;display:block;padding:0;overflow:hidden;background:#0b0d10;border:1px solid var(--line);text-align:left}
+.grid img{width:100%;aspect-ratio:16/9;object-fit:cover;filter:saturate(.85) brightness(.88);transition:transform .5s cubic-bezier(.2,.8,.24,1),filter .3s}
+.grid button:hover img{transform:scale(1.06);filter:none}
+.grid b{position:absolute;left:0;right:0;bottom:0;padding:26px 10px 8px;font-weight:600;font-size:12.5px;color:var(--paper);background:linear-gradient(180deg,rgba(5,7,12,0),rgba(5,7,12,.95));opacity:0;transform:translateY(6px);transition:opacity .3s,transform .3s}
+.grid button:hover b{opacity:1;transform:none}
+.end{border-top:1px solid var(--line);padding:clamp(26px,4vw,46px) 0 calc(var(--pad) + 10px);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-family:var(--disp);font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:#4d5563}
+
+/* lightbox */
+.lb{position:fixed;inset:0;z-index:60;display:none;place-items:center;padding:var(--pad);background:rgba(3,4,7,.95)}
+.lb.on{display:grid}
+.lbin{width:min(1100px,100%);display:grid;gap:10px}
+.lb img{width:100%;max-height:76svh;object-fit:contain;border:1px solid rgba(242,241,236,.3)}
+.lbbar{display:flex;align-items:center;justify-content:space-between;gap:14px;font-size:13px;color:var(--dim)}
+.lbbar .cap{color:rgba(242,241,236,.9)}
+.lbnav{display:flex;gap:6px}
+.lbnav button{border:1px solid rgba(242,241,236,.45);width:36px;height:32px;font-family:var(--disp);font-size:13px;line-height:1}
+.lbnav button:hover{background:rgba(242,241,236,.12)}
+@media (max-width:900px){
+  .stall{grid-template-columns:1fr}
+  .grid{grid-template-columns:repeat(2,1fr)}
+  .grid b{opacity:1;transform:none;font-size:11px}
+  .state{position:static;text-align:left;margin-top:14px}
+  .tl span,.tr .key.buy span{display:none}
+  .hero .veil{background:linear-gradient(180deg,rgba(5,7,12,.6),rgba(5,7,12,.3) 40%,rgba(5,7,12,.96))}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none !important;transition-duration:.01ms !important}}
+</style>
+</head>
+<body>
+<div class="grain"></div>
+
+<a class="hud tl key" href="./"><img class="av" src="assets/avatar.webp" alt="" /><span data-ticker>$TESLOON</span></a>
+<nav class="hud tr">
+  <a class="key buy" data-link="pons" href="https://www.ponsfamily.com/launchpad"><span>Buy</span><img src="assets/pons-mark.png" alt="" /></a>
+  <a class="key" data-link="x" href="https://x.com" aria-label="X"><img src="assets/ic-x.svg" alt="X" /></a>
+</nav>
+
+<header class="hero">
+  <img class="poster" src="assets/hero.jpg" alt="" />
+  <video id="heroV" src="assets/hero.mp4" poster="assets/hero.jpg" muted loop playsinline autoplay preload="auto"></video>
+  <div class="veil"></div>
+  <div class="wrap">
+    <div class="eyebrow">Motor District &#183; Stocks Robinhood City &#183; resident 01</div>
+    <h1><span data-name>Tesloon</span></h1>
+    <p class="lede">He is the car. The car is late. Every night he folds himself back into the sedan, charges to eighty, and unfolds again before the delivery window he keeps missing. <b>Nobody has seen him drive.</b></p>
+    <div class="state">Current form<b id="form">Sedan</b></div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="charge">
+    <div class="stall">
+      <div class="scr" id="scr" title="Copy contract">
+        <div class="cp" id="cp">Tap to copy</div>
+        <div class="hd">Charging session &#183; stall 04 &#183; level minus two</div>
+        <div class="ln"><span>Vehicle</span><span data-name>Tesloon</span></div>
+        <div class="ln"><span>Ticker</span><span data-ticker>$TESLOON</span></div>
+        <div class="ln"><span>Network</span><span>Robinhood Chain &#183; Pons</span></div>
+        <div class="ln"><span>Contract</span><span class="ca" id="ca">soon</span></div>
+        <div class="bar" id="bar"><i></i></div>
+        <div class="pct"><span>State of charge</span><b id="pct">0%</b></div>
+      </div>
+      <div class="side">
+        <h2>Charges to eighty, <i>never to a hundred</i></h2>
+        <p>Range anxiety is for people who go places. He stands at the stall in the suit he was delivered in, holding the cable like a receipt, waiting for a number that stops at eighty every single time.</p>
+        <div class="acts">
+          <a class="key buy" data-link="pons" href="https://www.ponsfamily.com/launchpad">Buy on Pons<img src="assets/pons-mark.png" alt="" /></a>
+          <a class="key" data-link="dex" href="https://dexscreener.com/robinhood">Chart<img src="assets/ic-dex.svg" alt="" /></a>
+          <a class="key" data-link="x" href="https://x.com">X<img src="assets/ic-x.svg" alt="" /></a>
+        </div>
+        <a class="city" data-link="city" href="#"><i>&#8598;</i> Back to Stocks Robinhood City</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="seen">
+    <div class="head"><h2>Eight sightings</h2><span>Same suit &#183; same head &#183; never driving</span></div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <div class="end">
+    <span data-name>Tesloon</span>
+    <span>Robinhood Chain &#183; Pons</span>
+    <span>Not financial advice, he cannot park</span>
+  </div>
+</main>
+
+<div class="lb" id="lb">
+  <div class="lbin">
+    <img id="lbimg" src="" alt="" />
+    <div class="lbbar">
+      <span class="cap" id="lbcap"></span>
+      <span class="lbnav"><button id="lbprev" aria-label="Previous">&#8249;</button><span id="lbn" style="align-self:center;padding:0 8px"></span><button id="lbnext" aria-label="Next">&#8250;</button><button id="lbx" aria-label="Close">&#10005;</button></span>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var S = window.SITE, CA = (S.CA || "SOON").trim(), HAS = CA !== "SOON" && CA !== "";
+  document.querySelectorAll('[data-name]').forEach(function(e){ e.textContent = S.NAME; });
+  document.querySelectorAll('[data-ticker]').forEach(function(e){ e.textContent = S.TICKER; });
+  document.title = S.NAME;
+  document.querySelectorAll('[data-link="pons"]').forEach(function(a){ a.href = HAS ? window.PONS_HOME + '/' + CA : window.PONS_HOME; a.target = '_blank'; a.rel = 'noopener'; });
+  document.querySelectorAll('[data-link="dex"]').forEach(function(a){ a.href = HAS ? window.DEX_HOME + '/' + CA : window.DEX_HOME; a.target = '_blank'; a.rel = 'noopener'; });
+  document.querySelectorAll('[data-link="x"]').forEach(function(a){ a.href = S.X_URL || 'https://x.com'; a.target = '_blank'; a.rel = 'noopener'; });
+  document.querySelectorAll('[data-link="city"]').forEach(function(a){ a.href = window.CITY_URL; a.target = '_blank'; a.rel = 'noopener'; });
+
+  /* which form is he in right now: the loop is car → man (0-10s) → car (10-20s) */
+  var v = document.getElementById('heroV'), form = document.getElementById('form');
+  setInterval(function(){ var t = v.currentTime || 0, man = t > 8.5 && t < 12.5, mid = (t > 4 && t <= 8.5) || (t >= 12.5 && t < 17); var s = man ? 'Man' : (mid ? 'Transforming' : 'Sedan'); if(form.textContent !== s){ form.textContent = s; form.classList.toggle('car', s === 'Sedan'); } }, 200);
+
+  /* the contract is the charging session */
+  var ca = document.getElementById('ca'), cp = document.getElementById('cp'), scr = document.getElementById('scr'), bar = document.getElementById('bar'), pct = document.getElementById('pct');
+  ca.textContent = HAS ? CA : 'soon';
+  scr.addEventListener('click', function(){ var old = cp.textContent; if(HAS){ if(navigator.clipboard) navigator.clipboard.writeText(CA); cp.textContent = 'Copied'; } else cp.textContent = 'Session not started'; setTimeout(function(){ cp.textContent = old; }, 1300); });
+  if('IntersectionObserver' in window){ new IntersectionObserver(function(es){ if(es[0].isIntersecting){ bar.classList.add('go'); var n = 0, t = setInterval(function(){ n += 2; pct.textContent = n + '%'; if(n >= 80) clearInterval(t); }, 58); } }, { threshold:.5 }).observe(scr); } else { bar.classList.add('go'); pct.textContent = '80%'; }
+
+  var SEEN = [
+    ['First in line every night, for a charge he does not need', 'in the charging queue'],
+    ['On the platform, rotating, not for sale', 'in the showroom'],
+    ['Plugged into the wall, reading the terms', 'in the garage'],
+    ['Washed weekly, never driven', 'in the car wash'],
+    ['The tunnel was his idea, the exit was not', 'in the tunnel'],
+    ['Front row, engine off, film unclear', 'at the drive-in'],
+    ['A rocket went up, he did not turn around', 'on the rooftop'],
+    ['The delivery date, crossed out again', 'in the office']
+  ];
+  var grid = document.getElementById('grid'), lb = document.getElementById('lb'), lbimg = document.getElementById('lbimg'), lbcap = document.getElementById('lbcap'), lbn = document.getElementById('lbn'), gi = 0;
+  grid.innerHTML = SEEN.map(function(m, i){ return '<button data-i="' + i + '" aria-label="' + m[0] + '"><img src="assets/t' + (i + 1) + '.webp" alt="Tesloon ' + m[1] + '" loading="lazy" /><b>' + m[0] + '</b></button>'; }).join('');
+  function show(k){ gi = (k + SEEN.length) % SEEN.length; lbimg.src = 'assets/m' + (gi + 1) + '.webp'; lbimg.alt = 'Tesloon ' + SEEN[gi][1]; lbcap.textContent = SEEN[gi][0]; lbn.textContent = (gi + 1) + ' / ' + SEEN.length; lb.classList.add('on'); }
+  grid.addEventListener('click', function(e){ var b = e.target.closest('button'); if(b) show(+b.dataset.i); });
+  document.getElementById('lbprev').addEventListener('click', function(){ show(gi - 1); });
+  document.getElementById('lbnext').addEventListener('click', function(){ show(gi + 1); });
+  document.getElementById('lbx').addEventListener('click', function(){ lb.classList.remove('on'); });
+  lb.addEventListener('click', function(e){ if(e.target === lb) lb.classList.remove('on'); });
+  document.addEventListener('keydown', function(e){ if(!lb.classList.contains('on')) return; if(e.key === 'Escape') lb.classList.remove('on'); if(e.key === 'ArrowLeft') show(gi - 1); if(e.key === 'ArrowRight') show(gi + 1); });
+})();
+</script>
+</body>
+</html>
